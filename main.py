@@ -30,11 +30,11 @@ def displayBoard(misseLetters,correctLetters, secretWord):
 
 def getGuess(alreadyGuessed):
     while True:
-        guess = input("Guess a letter")
+        guess = input("Guess a letter: ")
         guess = guess.lower()
 
         if guess.isdigit():
-            print("please write a number")
+            print("please write a letter")
             continue
         elif guess in alreadyGuessed:
             print("You already guess that letter")
@@ -42,10 +42,15 @@ def getGuess(alreadyGuessed):
         else:
             return guess
         
-
+def checkUserWin(secretWord, corectLettes):
+    for i in range(len(secretWord)):
+        if secretWord[i] not in corectLettes:
+            return False
+    return True
 
 def playAgain():
-    pass
+    print("Do you want to play again? (yes/not):")
+    return input().lower().startswith("y")
 
 def run():
     print("HANG MAN")
@@ -54,18 +59,33 @@ def run():
     secretWord = getRandomWord()
     gameIsDone = False
 
+    print(secretWord)
+
     while True:
         displayBoard(missedLetter, correctLetters, secretWord)
 
         guesse = getGuess(correctLetters + missedLetter)
+        
 
         if guesse == secretWord:
             correctLetters = guesse
-            pass #user win
+            gameIsDone = checkUserWin(secretWord,correctLetters)
+
         elif guesse in secretWord:
             correctLetters += guesse
+            gameIsDone = checkUserWin(secretWord,correctLetters)
         else:
-            pass #lose
+            pass #lose one point
 
-if __name__ == "__mian__":
+        if gameIsDone: 
+            if playAgain():
+                missedLetter = ""
+                correctLetters = ""
+                secretWord = getRandomWord()
+                gameIsDone = False
+            else:
+                break
+
+
+if __name__ == "__main__":
     run()
