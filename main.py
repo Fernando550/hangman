@@ -20,13 +20,8 @@ def displayBoard(misseLetters,correctLetters, secretWord):
 
     for letter in blaks:
         print(letter, end=" ")
-        print()
-
-
-
-    print(blaks)
-
-
+       
+    print()
 
 def getGuess(alreadyGuessed):
     while True:
@@ -46,7 +41,10 @@ def checkUserWin(secretWord, corectLettes):
     for i in range(len(secretWord)):
         if secretWord[i] not in corectLettes:
             return False
+    
+    print(f"Congradulation you win, you found the secret word: {secretWord}")
     return True
+
 
 def playAgain():
     print("Do you want to play again? (yes/not):")
@@ -64,8 +62,7 @@ def run():
     while True:
         displayBoard(missedLetter, correctLetters, secretWord)
 
-        guesse = getGuess(correctLetters + missedLetter)
-        
+        guesse = getGuess(correctLetters + missedLetter)       
 
         if guesse == secretWord:
             correctLetters = guesse
@@ -75,8 +72,13 @@ def run():
             correctLetters += guesse
             gameIsDone = checkUserWin(secretWord,correctLetters)
         else:
-            pass #lose one point
-
+            missedLetter += guesse
+            if len(missedLetter) == len(HANGMAN_PICKS) - 1:
+                displayBoard(missedLetter,correctLetters, secretWord)
+                print(f"Sorry you didn't have the chance to guesse the secret word: {secretWord}")
+                print(f"Number of attemps {len(missedLetter)}")
+                gameIsDone = True
+            
         if gameIsDone: 
             if playAgain():
                 missedLetter = ""
@@ -85,7 +87,6 @@ def run():
                 gameIsDone = False
             else:
                 break
-
 
 if __name__ == "__main__":
     run()
