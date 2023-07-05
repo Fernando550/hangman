@@ -57,8 +57,6 @@ def run():
     secretWord = getRandomWord()
     gameIsDone = False
 
-    print(secretWord)
-
     while True:
         displayBoard(missedLetter, correctLetters, secretWord)
 
@@ -80,6 +78,7 @@ def run():
                 gameIsDone = True
             
         if gameIsDone: 
+            displayBoard(missedLetter,correctLetters, secretWord)
             if playAgain():
                 missedLetter = ""
                 correctLetters = ""
